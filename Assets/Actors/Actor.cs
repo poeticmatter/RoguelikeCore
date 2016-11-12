@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Action))]
 public class Actor : MonoBehaviour {
 
 	
@@ -9,11 +10,9 @@ public class Actor : MonoBehaviour {
 	}
 
 
-	public Action GetAction()
+	virtual public Action GetAction()
 	{
-		return null;
+		return GetComponent<Action>();
 	}
-
-
 
 }

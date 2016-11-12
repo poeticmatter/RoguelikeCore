@@ -7,11 +7,17 @@ public class Action : MonoBehaviour {
 
 	virtual public void Perform()
 	{
-
+		//Default action, do nothing.
+		Debug.Log("Performed default action.");
 	}
 
 	virtual public bool CanPerform()
 	{
-		return false;
+		return true;
+	}
+
+	virtual public Action GetAlternate()
+	{
+		return null; //Not needed, as can always perform.
 	}
 }
