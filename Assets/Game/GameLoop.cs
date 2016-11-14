@@ -47,11 +47,15 @@ public class GameLoop : MonoBehaviour {
 	private void Loop()
 	{
 		UpdateActionIfFinished();
-		currentAction = GetCurrentActor().GetAction();
-		if (currentAction == null) return;
-		while (!currentAction.CanPerform())
+		if (currentAction == null)
 		{
-			currentAction.GetAlternate();
+			currentAction = GetCurrentActor().GetAction();
+			if (currentAction == null) return;
+			
+		}
+		while(!currentAction.CanPerform())
+		{
+			currentAction = currentAction.GetAlternate();
 		}
 		currentAction.Perform();
 	}
