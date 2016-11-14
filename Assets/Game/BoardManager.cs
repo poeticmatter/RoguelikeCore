@@ -18,14 +18,15 @@ public class BoardManager : MonoBehaviour {
 
 	public void UnregisterPosition(int x, int y)
 	{
-		if (x > boardPositions.GetLength(0) || 0 > x || y > boardPositions.GetLength(1) || 0 > y)
+		if (!IsWithinBounds(x, y))
 		{
-			Debug.LogError("Trying to unregister out of board boaunds");
+			Debug.LogError("Attempt to UnregisterPosition out of board boaunds");
 			return;
 		}
-		if (boardPositions[x,y] ==null)
+		if (!IsOccupied(x, y))
 		{
-			Debug.LogError("Attempting to unregister an empty location");
+			Debug.LogError("Attempt to UnregisterPosition an empty board position");
+			return;
 		}
 
 		boardPositions[x, y] = null;
@@ -33,18 +34,37 @@ public class BoardManager : MonoBehaviour {
 
 	public void RegisterPosition(int x, int y, BoardPosition toRegister)
 	{
-		if (x > boardPositions.GetLength(0) || 0 > x || y > boardPositions.GetLength(1) || 0 > y)
+		if (!IsWithinBounds(x, y))
 		{
-			Debug.LogError("Trying to register out of board boaunds");
+			Debug.LogError("Attempt to RegisterPosition out of board boaunds");
 			return;
 		}
 
-		if (boardPositions[x, y] != null)
+		if (IsOccupied(x, y))
 		{
-			Debug.LogError("Overriding exisiting board postion " + boardPositions[x, y].name);
+			Debug.LogError("Attempt to RegisterPosition occupied board position " + boardPositions[x, y].name);
 		}
 
 		boardPositions[x, y] = toRegister;
+	}
+
+	private bool IsWithinBounds(int x, int y)
+	{
+		return 0 <= x || x < boardPositions.GetLength(0) || 0 <= y || y < boardPositions.GetLength(1);
+	}
+
+	public BoardPosition GetOccupied(int x, int y)
+	{
+		if (!IsWithinBounds(x, y))
+		{
+			Debug.LogError("Attempt to GetOccupied out of bounds");
+		}
+		return boardPositions[x, y];
+	}
+
+	public bool IsOccupied(int x, int y)
+	{
+		return GetOccupied(x, y) != null;
 	}
 
 }
