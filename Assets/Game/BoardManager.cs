@@ -3,10 +3,13 @@ using System.Collections;
 
 public class BoardManager : MonoBehaviour {
 
+	public static BoardManager instance = null;
 	private BoardPosition[,] boardPositions;
-	
+
 	void Awake()
 	{
+		if (instance == null) instance = this;
+		else Debug.LogError("More than one GameLoop");
 		SetupBoard(8,8);
 	}
 
@@ -48,7 +51,7 @@ public class BoardManager : MonoBehaviour {
 		boardPositions[x, y] = toRegister;
 	}
 
-	private bool IsWithinBounds(int x, int y)
+	public bool IsWithinBounds(int x, int y)
 	{
 		return 0 <= x || x < boardPositions.GetLength(0) || 0 <= y || y < boardPositions.GetLength(1);
 	}
