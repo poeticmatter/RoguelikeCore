@@ -11,6 +11,8 @@ public class MoveAction : Action {
 	{
 		BoardPosition boardPosition = GetComponent<BoardPosition>();
 		boardPosition.MoveDirection(xDirection, yDirection);
+		//Temporary movement.
+		transform.Translate(new Vector2(xDirection, yDirection));
 	}
 
 	override public bool CanPerform()
