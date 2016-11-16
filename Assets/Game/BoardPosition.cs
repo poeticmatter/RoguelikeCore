@@ -3,8 +3,8 @@ using System.Collections;
 
 public class BoardPosition : MonoBehaviour {
 
-	private int xPosition;
-	private int yPosition;
+	public int xPosition;
+	public int yPosition;
 
 
 	void Start ()
