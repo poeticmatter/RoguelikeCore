@@ -9,6 +9,7 @@ public class Action : MonoBehaviour {
 	{
 		//Default action, do nothing.
 		Debug.Log("Performed default action.");
+		state = ActionState.FINISHED;
 	}
 
 	virtual public bool CanPerform()

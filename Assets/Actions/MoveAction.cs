@@ -13,6 +13,7 @@ public class MoveAction : Action {
 		boardPosition.MoveDirection(xDirection, yDirection);
 		//Temporary movement.
 		transform.Translate(new Vector2(xDirection, yDirection));
+		state = ActionState.FINISHED;
 	}
 
 	override public bool CanPerform()

@@ -25,6 +25,7 @@ public class MeleeAction : Action {
 			return;
 		}
 		target.ApplyDamage(damage);
+		state = ActionState.FINISHED;
 
 	}
 
