@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Action))]
+[RequireComponent(typeof(BoardPosition))]
 public class Actor : MonoBehaviour {
 
 	

@@ -44,7 +44,11 @@ public class BoardPosition : MonoBehaviour {
 		}
 		int xTo = xPosition + xDirection;
 		int yTo = yPosition + yDirection;
-        return BoardManager.instance.IsWithinBounds(xTo,yTo) && !BoardManager.instance.IsOccupied(xTo, yTo);	
+		if (!BoardManager.instance.IsWithinBounds(xTo, yTo))
+		{
+			return false;
+		}
+		return !BoardManager.instance.IsOccupied(xTo, yTo);
 	}
 
 	public BoardPosition GetAdjacent(int xDirection, int yDirection)

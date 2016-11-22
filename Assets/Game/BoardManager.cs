@@ -53,7 +53,7 @@ public class BoardManager : MonoBehaviour {
 
 	public bool IsWithinBounds(int x, int y)
 	{
-		return 0 <= x || x < boardPositions.GetLength(0) || 0 <= y || y < boardPositions.GetLength(1);
+		return x >= 0 && x < boardPositions.GetLength(0) && y >= 0 && y < boardPositions.GetLength(1);
 	}
 
 	public BoardPosition GetOccupied(int x, int y)
@@ -61,6 +61,7 @@ public class BoardManager : MonoBehaviour {
 		if (!IsWithinBounds(x, y))
 		{
 			Debug.LogError("Attempt to GetOccupied out of bounds");
+			return null;
 		}
 		return boardPositions[x, y];
 	}

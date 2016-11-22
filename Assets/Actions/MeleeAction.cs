@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Action))]
+[RequireComponent(typeof(RestAction))]
 public class MeleeAction : Action {
 
 	public int damage;
@@ -47,6 +47,6 @@ public class MeleeAction : Action {
 
 	override public Action GetAlternate()
 	{
-		return GetComponent<Action>();
+		return GetComponent<RestAction>();
 	}
 }
