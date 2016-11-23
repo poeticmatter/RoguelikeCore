@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(MoveAction))]
 public class PlayerActor : Actor {
 
 	public override Action GetAction()
@@ -25,11 +24,5 @@ public class PlayerActor : Actor {
 
 	}
 
-	private Action GetMoveAction(int xDirection, int yDirection)
-	{
-		MoveAction action = GetComponent<MoveAction>();
-		action.xDirection = xDirection;
-		action.yDirection = yDirection;
-		return action;
-	}
+	
 }
