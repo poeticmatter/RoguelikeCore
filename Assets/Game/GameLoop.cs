@@ -58,6 +58,7 @@ public class GameLoop : MonoBehaviour {
 			currentAction = currentAction.GetAlternate();
 		}
 		currentAction.Perform();
+		IncrementCurrentActor();
 	}
 
 	private void UpdateActionIfFinished()
