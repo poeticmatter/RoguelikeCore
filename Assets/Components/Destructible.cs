@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(BoardPosition))]
 public class Destructible : MonoBehaviour {
 
 	public int startingHP;
@@ -16,7 +17,14 @@ public class Destructible : MonoBehaviour {
 		currentHP -= damage;
 		if (currentHP <= 0)
 		{
-			Destroy(gameObject);
+			Die();
 		}
-	}	
+	}
+
+	public void Die()
+	{
+		Destroy(gameObject);
+		BoardManager.instance.UnregisterPosition(GetComponent<BoardPosition>());
+
+	}
 }
