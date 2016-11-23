@@ -9,15 +9,15 @@ public class BoardPosition : MonoBehaviour {
 
 	void Start ()
 	{
-		BoardManager.instance.RegisterPosition(xPosition, yPosition, this);
+		BoardManager.instance.RegisterPosition(this);
 	}
 
 	public void TeleportTo(int x, int y)
 	{
-		BoardManager.instance.UnregisterPosition(xPosition, yPosition);
+		BoardManager.instance.UnregisterPosition(this);
 		xPosition = x;
 		yPosition = y;
-		BoardManager.instance.RegisterPosition(xPosition, yPosition, this);
+		BoardManager.instance.RegisterPosition(this);
 	}
 
 	public void MoveDirection(int xDirection, int yDirection)
@@ -55,5 +55,9 @@ public class BoardPosition : MonoBehaviour {
 	{
 		return BoardManager.instance.GetOccupied(xPosition + xDirection, yPosition + yDirection);
 	}
-	
+
+	public int ManhattanDistance(BoardPosition from)
+	{
+		return Mathf.Abs(xPosition - from.xPosition) + Mathf.Abs(yPosition - from.yPosition);
+	}
 }
