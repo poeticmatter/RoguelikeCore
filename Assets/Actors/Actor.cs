@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(RestAction))]
 [RequireComponent(typeof(MoveAction))]
 [RequireComponent(typeof(BoardPosition))]
-public class Actor : MonoBehaviour {
+public abstract class Actor : MonoBehaviour {
 
 	private BoardPosition boardPosition = null;
 	public BoardPosition BoardPosition
@@ -23,10 +23,7 @@ public class Actor : MonoBehaviour {
 	}
 
 
-	virtual public Action GetAction()
-	{
-		return GetComponent<Action>();
-	}
+	abstract public Action GetAction();
 
 	protected Action GetMoveAction(int xDirection, int yDirection)
 	{

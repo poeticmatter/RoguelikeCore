@@ -9,40 +9,43 @@ public class MeleeAction : Action {
 	public int xDirection;
 	public int yDirection;
 
+	private Destructible target = null;
+	private MeleeWeapon weapon = null;
+
 	override public void Perform()
 	{
-		BoardPosition boardPosition = GetComponent<BoardPosition>();
-		BoardPosition adjacent = boardPosition.GetAdjacent(xDirection, yDirection);
-		if (adjacent == null)
+		state = ActionState.EXECUTING;
+		if (!CanPerform())
 		{
-			Debug.LogError("Nothing to attack");
+			Debug.LogError("Atempting to perform a melee action that cannot be performed");
+			state = ActionState.FINISHED;
 			return;
 		}
-		Destructible target = adjacent.GetComponent<Destructible>();
-		if (target == null)
-		{
-			Debug.LogError("Target Indestructible");
-			return;
-		}
-		target.ApplyDamage(damage);
-		state = ActionState.FINISHED;
-
+		weapon.UseWeapon();
 	}
 
 	override public bool CanPerform()
 	{
-		BoardPosition boardPosition = GetComponent<BoardPosition>();
-		BoardPosition adjacent = boardPosition.GetAdjacent(xDirection, yDirection);
+		weapon = GetComponent<MeleeWeapon>();
+		if (weapon == null)
+		{
+			Debug.Log("No weapon");
+			return false;
+		}
+		BoardPosition adjacent = BoardPosition.GetAdjacent(xDirection, yDirection);
 		if (adjacent == null)
 		{
+			Debug.Log("Nothing in that direction");
 			return false;
 		}
-		Destructible target = adjacent.GetComponent<Destructible>();
+		target = adjacent.GetComponent<Destructible>();
 		if (target == null)
 		{
+			Debug.Log("Target Indestructible");
 			return false;
 		}
-		return true;
+		weapon.Target(target);
+		return weapon.IsTargetValid();
 	}
 
 	override public Action GetAlternate()

@@ -56,8 +56,13 @@ public class BoardPosition : MonoBehaviour {
 		return BoardManager.instance.GetOccupied(xPosition + xDirection, yPosition + yDirection);
 	}
 
-	public int ManhattanDistance(BoardPosition from)
+	public int ManhattanDistance(BoardPosition to)
 	{
-		return Mathf.Abs(xPosition - from.xPosition) + Mathf.Abs(yPosition - from.yPosition);
+		return Mathf.Abs(xPosition - to.xPosition) + Mathf.Abs(yPosition - to.yPosition);
 	}
+
+	public bool IsAdjacent(BoardPosition to)
+	{
+		return ManhattanDistance(to) == 1;
+    }
 }
