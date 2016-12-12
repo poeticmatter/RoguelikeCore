@@ -24,6 +24,7 @@ public class GameLoop : MonoBehaviour {
 
 	public void UnregisterActor(Actor actor)
 	{
+		Debug.Log("unregister" + actor);
 		int index = actors.IndexOf(actor);
 		if (index < currentActor) index--;
 		actors.RemoveAt(index);
@@ -46,13 +47,15 @@ public class GameLoop : MonoBehaviour {
 
 	private void Loop()
 	{
-		UpdateActionIfFinished();
-		if (currentAction == null)
+		if (IsCurrentActionExecuting())
 		{
-			currentAction = GetCurrentActor().GetAction();
-			if (currentAction == null) return;
-			
+			return;
 		}
+		SetFinishedActionToIdle();
+
+		currentAction = GetCurrentActor().GetAction();
+		if (currentAction == null) return; //Should only happen for player actor
+
 		while(!currentAction.CanPerform())
 		{
 			currentAction = currentAction.GetAlternate();
@@ -61,12 +64,18 @@ public class GameLoop : MonoBehaviour {
 		IncrementCurrentActor();
 	}
 
-	private void UpdateActionIfFinished()
+	private bool IsCurrentActionExecuting()
 	{
-		if (currentAction == null) return;
-		if (currentAction.state == Action.ActionState.EXECUTING) return;
-		currentAction.state = Action.ActionState.IDLE;
-		currentAction = null;
+		if (currentAction == null) return false;
+		return currentAction.state == Action.ActionState.EXECUTING;
+	}
+
+	private void SetFinishedActionToIdle()
+	{
+		if (currentAction!= null)
+		{
+			currentAction.state = Action.ActionState.IDLE;
+		}
 	}
 
 

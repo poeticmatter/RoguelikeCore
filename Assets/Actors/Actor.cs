@@ -33,4 +33,9 @@ public abstract class Actor : MonoBehaviour {
 		return action;
 	}
 
+	public void Unregister()
+	{
+		GameLoop.instance.UnregisterActor(this);
+	}
+
 }

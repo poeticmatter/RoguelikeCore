@@ -4,8 +4,6 @@ using System.Collections;
 [RequireComponent(typeof(RestAction))]
 public class MeleeAction : Action {
 
-	public int damage;
-
 	public int xDirection;
 	public int yDirection;
 
@@ -22,6 +20,7 @@ public class MeleeAction : Action {
 			return;
 		}
 		weapon.UseWeapon();
+		state = ActionState.FINISHED;
 	}
 
 	override public bool CanPerform()

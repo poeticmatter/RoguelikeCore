@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(BoardPosition))]
 public class Destructible : MonoBehaviour {
 
 	public int startingHP;
 	private int currentHP;
 
-	void Awkake ()
+	void Awake ()
 	{
 		currentHP = startingHP;
 	}
@@ -23,8 +22,7 @@ public class Destructible : MonoBehaviour {
 
 	public void Die()
 	{
+		gameObject.SendMessage("Unregister");
 		Destroy(gameObject);
-		BoardManager.instance.UnregisterPosition(GetComponent<BoardPosition>());
-
 	}
 }

@@ -65,4 +65,9 @@ public class BoardPosition : MonoBehaviour {
 	{
 		return ManhattanDistance(to) == 1;
     }
+
+	public void Unregister()
+	{
+		BoardManager.instance.UnregisterPosition(this);
+	}
 }
