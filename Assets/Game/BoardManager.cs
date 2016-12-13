@@ -76,4 +76,9 @@ public class BoardManager : MonoBehaviour {
 		return GetOccupied(x, y) != null;
 	}
 
+	public bool IsPassable(int x, int y)
+	{
+		return IsWithinBounds(x, y) && !IsOccupied(x, y);
+	}
+
 }

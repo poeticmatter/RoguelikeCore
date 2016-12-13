@@ -7,17 +7,20 @@ public class EnemyActor : Actor
 	public override Action GetAction()
 	{
 		PlayerActor target = FindObjectOfType<PlayerActor>();
-		int xDirection = Mathf.Clamp(target.BoardPosition.xPosition - BoardPosition.xPosition, -1, 1);
-		if (xDirection!=0)
+		AStar a = GetAStar(BoardPosition, target.BoardPosition);
+		a.findPath();
+		if (a.solution.Count > 1)
 		{
-			return GetAttackAction(Direction.GetDirection(xDirection, 0));
-		}
-		int yDirection = Mathf.Clamp(target.BoardPosition.yPosition - BoardPosition.yPosition, -1, 1);
-		if (yDirection != 0)
-		{
-			return GetAttackAction(Direction.GetDirection(0, yDirection));
+			AStarNode2D node = (AStarNode2D) a.solution[1];
+			Direction direction = Direction.GetDirection(node.x - BoardPosition.xPosition, node.y - BoardPosition.yPosition);
+			return GetAttackAction(direction);
 		}
 		return GetComponent<RestAction>();
 	}
+
+	private AStar GetAStar(BoardPosition from, BoardPosition to)
+	{
+		return new AStar(new BoardManagerAStarCost(to), from.xPosition, from.yPosition, to.xPosition, to.yPosition);
+    }
 
 }
