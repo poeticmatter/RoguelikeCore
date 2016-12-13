@@ -25,7 +25,7 @@ public class GameLoop : MonoBehaviour {
 	public void UnregisterActor(Actor actor)
 	{
 		int index = actors.IndexOf(actor);
-		if (index < currentActor) index--;
+		if (index < currentActor) currentActor--;
 		actors.RemoveAt(index);
 	}
 
