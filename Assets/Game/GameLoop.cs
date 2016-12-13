@@ -24,7 +24,6 @@ public class GameLoop : MonoBehaviour {
 
 	public void UnregisterActor(Actor actor)
 	{
-		Debug.Log("unregister" + actor);
 		int index = actors.IndexOf(actor);
 		if (index < currentActor) index--;
 		actors.RemoveAt(index);
@@ -61,7 +60,14 @@ public class GameLoop : MonoBehaviour {
 			currentAction = currentAction.GetAlternate();
 		}
 		currentAction.Perform();
-		IncrementCurrentActor();
+
+		while (!GetCurrentActor().HasEnergyToActivate())
+		{
+			IncrementCurrentActor();
+			GetCurrentActor().GainEnergy(1);
+		}
+		GetCurrentActor().SpendEnergyForActivation();
+
 	}
 
 	private bool IsCurrentActionExecuting()

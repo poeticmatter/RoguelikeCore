@@ -6,6 +6,9 @@ using System.Collections;
 [RequireComponent(typeof(BoardPosition))]
 public abstract class Actor : MonoBehaviour {
 
+	public int activationCost;
+	private int energy = 0;
+
 	private BoardPosition boardPosition = null;
 	public BoardPosition BoardPosition
 	{
@@ -36,6 +39,21 @@ public abstract class Actor : MonoBehaviour {
 	public void Unregister()
 	{
 		GameLoop.instance.UnregisterActor(this);
+	}
+
+	public bool HasEnergyToActivate()
+	{
+		return energy >= activationCost;
+	}
+
+	public void SpendEnergyForActivation()
+	{
+		energy -= activationCost;
+	}
+
+	public void GainEnergy(int amount)
+	{
+		energy += amount;
 	}
 
 }
