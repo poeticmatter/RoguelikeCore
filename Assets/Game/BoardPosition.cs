@@ -20,30 +20,20 @@ public class BoardPosition : MonoBehaviour {
 		BoardManager.instance.RegisterPosition(this);
 	}
 
-	public void MoveDirection(int xDirection, int yDirection)
+	public void MoveDirection(Direction direction)
 	{
-		if (!CanMoveDirection(xDirection,yDirection))
+		if (!CanMoveDirection(direction))
 		{
 			Debug.LogError("Cannot ModeDirection");
 			return;
 		}
-		TeleportTo(xPosition + xDirection, yPosition + yDirection);
+		TeleportTo(xPosition + direction.X, yPosition + direction.Y);
 	}
 
-	public bool CanMoveDirection (int xDirection, int yDirection)
+	public bool CanMoveDirection (Direction direction)
 	{
-		if (Mathf.Abs(xDirection) > 1 || Mathf.Abs(yDirection) > 1)
-		{
-			Debug.LogError("Attempt to MoveDirection more than 1 space");
-			return false;
-		}
-		if (Mathf.Abs(xDirection) == Mathf.Abs(yDirection))
-		{
-			Debug.LogError("Attempt to MoveDirection diagonally or 0/0");
-			return false;
-		}
-		int xTo = xPosition + xDirection;
-		int yTo = yPosition + yDirection;
+		int xTo = xPosition + direction.X;
+		int yTo = yPosition + direction.Y;
 		if (!BoardManager.instance.IsWithinBounds(xTo, yTo))
 		{
 			return false;
@@ -51,9 +41,9 @@ public class BoardPosition : MonoBehaviour {
 		return !BoardManager.instance.IsOccupied(xTo, yTo);
 	}
 
-	public BoardPosition GetAdjacent(int xDirection, int yDirection)
+	public BoardPosition GetAdjacent(Direction direction)
 	{
-		return BoardManager.instance.GetOccupied(xPosition + xDirection, yPosition + yDirection);
+		return BoardManager.instance.GetOccupied(xPosition + direction.X, yPosition + direction.Y);
 	}
 
 	public int ManhattanDistance(BoardPosition to)

@@ -28,11 +28,17 @@ public abstract class Actor : MonoBehaviour {
 
 	abstract public Action GetAction();
 
-	protected Action GetMoveAction(int xDirection, int yDirection)
+	protected Action GetMoveAction(Direction direction)
 	{
 		MoveAction action = GetComponent<MoveAction>();
-		action.xDirection = xDirection;
-		action.yDirection = yDirection;
+		action.direction = direction;
+		return action;
+	}
+
+	protected Action GetAttackAction(Direction direction)
+	{
+		AttackAction action = GetComponent<AttackAction>();
+		action.direction = direction;
 		return action;
 	}
 

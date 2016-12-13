@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(RestAction))]
-public class MeleeAction : Action {
+[RequireComponent(typeof(MoveAction))]
+public class AttackAction : Action {
 
-	public int xDirection;
-	public int yDirection;
+	public Direction direction;
 
-	private Destructible target = null;
-	private MeleeWeapon weapon = null;
+	private Weapon weapon = null;
 
 	override public void Perform()
 	{
@@ -25,30 +23,20 @@ public class MeleeAction : Action {
 
 	override public bool CanPerform()
 	{
-		weapon = GetComponent<MeleeWeapon>();
+		weapon = GetComponent<Weapon>();
 		if (weapon == null)
 		{
 			Debug.Log("No weapon");
 			return false;
 		}
-		BoardPosition adjacent = BoardPosition.GetAdjacent(xDirection, yDirection);
-		if (adjacent == null)
-		{
-			Debug.Log("Nothing in that direction");
-			return false;
-		}
-		target = adjacent.GetComponent<Destructible>();
-		if (target == null)
-		{
-			Debug.Log("Target Indestructible");
-			return false;
-		}
-		weapon.Target(target);
-		return weapon.IsTargetValid();
+
+		return weapon.AcquireTarget(direction);
 	}
 
 	override public Action GetAlternate()
 	{
-		return GetComponent<RestAction>();
+		MoveAction alternate = GetComponent<MoveAction>();
+		alternate.direction = direction;
+		return alternate;
 	}
 }

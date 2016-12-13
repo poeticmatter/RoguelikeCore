@@ -40,49 +40,51 @@ public class GameLoop : MonoBehaviour {
 	}
 	
 	void Update () {
-
 		Loop();
 	}
 
 	private void Loop()
 	{
-		if (IsCurrentActionExecuting())
+		if (currentAction != null)
 		{
-			return;
+			if (currentAction.state == Action.ActionState.EXECUTING)
+			{
+				return;
+			}
+			ResetCurrentAction();
+			EnergyLoop();
 		}
-		SetFinishedActionToIdle();
+		PerformAction();
+	}
 
+	private void PerformAction ()
+	{
 		currentAction = GetCurrentActor().GetAction();
 		if (currentAction == null) return; //Should only happen for player actor
 
-		while(!currentAction.CanPerform())
+		while (!currentAction.CanPerform())
 		{
 			currentAction = currentAction.GetAlternate();
 		}
 		currentAction.Perform();
+	}
 
-		while (!GetCurrentActor().HasEnergyToActivate())
+	private void EnergyLoop()
+	{
+		IncrementCurrentActor();
+		GetCurrentActor().GainEnergy(1);
+		if (!GetCurrentActor().HasEnergyToActivate())
 		{
-			IncrementCurrentActor();
-			GetCurrentActor().GainEnergy(1);
+			EnergyLoop();
 		}
-		GetCurrentActor().SpendEnergyForActivation();
-
-	}
-
-	private bool IsCurrentActionExecuting()
-	{
-		if (currentAction == null) return false;
-		return currentAction.state == Action.ActionState.EXECUTING;
-	}
-
-	private void SetFinishedActionToIdle()
-	{
-		if (currentAction!= null)
+		else
 		{
-			currentAction.state = Action.ActionState.IDLE;
+			GetCurrentActor().SpendEnergyForActivation();
 		}
 	}
 
-
+	private void ResetCurrentAction()
+	{
+		currentAction.state = Action.ActionState.IDLE;
+	}
 }

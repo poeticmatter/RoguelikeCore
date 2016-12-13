@@ -7,12 +7,7 @@ public abstract class Weapon : MonoBehaviour {
 	public string weapomName;
 	protected Destructible target;
 
-	public void Target(Destructible target)
-	{
-		this.target = target;
-	}
-
-	abstract public bool IsTargetValid();
-
 	abstract public void UseWeapon();
+
+	abstract public bool AcquireTarget(Direction direction);
 }

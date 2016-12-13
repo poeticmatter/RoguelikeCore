@@ -1,31 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(MeleeAction))]
+[RequireComponent(typeof(RestAction))]
 public class MoveAction : Action {
 
-	public int xDirection;
-	public int yDirection;
+	public Direction direction;
 
 	override public void Perform()
 	{
 		BoardPosition boardPosition = GetComponent<BoardPosition>();
-		boardPosition.MoveDirection(xDirection, yDirection);
+		boardPosition.MoveDirection(direction);
 		//Temporary movement.
-		transform.Translate(new Vector2(xDirection, yDirection));
+		transform.Translate(new Vector2(direction.X, direction.Y));
 		state = ActionState.FINISHED;
 	}
 
 	override public bool CanPerform()
 	{
-		return GetComponent<BoardPosition>().CanMoveDirection(xDirection, yDirection);
+		return GetComponent<BoardPosition>().CanMoveDirection(direction);
 	}
 
 	override public Action GetAlternate()
 	{
-		MeleeAction alternate = GetComponent<MeleeAction>();
-		alternate.xDirection = xDirection;
-		alternate.yDirection = yDirection;
-		return alternate;
+		return GetComponent<RestAction>();
 	}
 }

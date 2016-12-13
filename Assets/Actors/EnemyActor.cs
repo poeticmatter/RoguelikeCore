@@ -10,12 +10,12 @@ public class EnemyActor : Actor
 		int xDirection = Mathf.Clamp(target.BoardPosition.xPosition - BoardPosition.xPosition, -1, 1);
 		if (xDirection!=0)
 		{
-			return GetMoveAction(xDirection, 0);
+			return GetAttackAction(Direction.GetDirection(xDirection, 0));
 		}
 		int yDirection = Mathf.Clamp(target.BoardPosition.yPosition - BoardPosition.yPosition, -1, 1);
 		if (yDirection != 0)
 		{
-			return GetMoveAction(0, yDirection);
+			return GetAttackAction(Direction.GetDirection(0, yDirection));
 		}
 		return GetComponent<RestAction>();
 	}
