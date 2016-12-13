@@ -9,7 +9,7 @@ public class BoardManager : MonoBehaviour {
 	void Awake()
 	{
 		if (instance == null) instance = this;
-		else Debug.LogError("More than one GameLoop");
+		else Debug.LogError("More than one BoardManager");
 		SetupBoard(8,8);
 	}
 
