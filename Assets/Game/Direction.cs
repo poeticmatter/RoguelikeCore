@@ -53,9 +53,14 @@ public class Direction
 		}
 		if (Mathf.Abs(xDirection) == Mathf.Abs(yDirection))
 		{
-			Debug.LogError("Direction cannot be diagonnal or 0/0.");
+			Debug.LogError("Direction cannot be diagonnal or 0/0 " + xDirection + "," + yDirection);
 			return null;
 		}
 		return new Direction(xDirection, yDirection);
+	}
+
+	override public string ToString()
+	{
+		return X + "," + Y;
 	}
 }
