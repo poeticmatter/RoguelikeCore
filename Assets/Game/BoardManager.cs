@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
 
 	public static BoardManager instance = null;
-	private BoardPosition[,] boardPositions;
+	private char[,] board;
+	private Dictionary<Position, Actor> actors;
+
 
 	void Awake()
 	{
@@ -16,69 +19,60 @@ public class BoardManager : MonoBehaviour {
 	
 	public void SetupBoard(int width, int height)
 	{
-		boardPositions = new BoardPosition[width, height];
+		board = new char[width, height];
+		for (int xi = 0; xi < board.GetLength(0); xi++)
+		{
+			for (int yi = 0; yi < board.GetLength(1); yi++)
+			{
+				board[xi, yi] = 'p';
+			}
+		}
 	}
 
-	public void UnregisterPosition(BoardPosition toUnregister)
+	public void UnregisterActor(Actor toUnregister)
 	{
-		if (!IsWithinBounds(toUnregister.X, toUnregister.Y))
+		if (actors[toUnregister.BoardPosition.Position] == null)
 		{
-			Debug.LogError("Attempt to UnregisterPosition out of board boaunds");
+			Debug.LogError(toUnregister.name + "is not registered at it's board position.");
 			return;
 		}
-		if (!IsOccupied(toUnregister.X, toUnregister.Y))
-		{
-			Debug.LogError("Attempt to UnregisterPosition an empty board position");
-			return;
-		}
-		if (boardPositions[toUnregister.X, toUnregister.Y] != toUnregister)
-		{
-			Debug.LogError("FATAL ERROR: Unregistering postion not occupied by the same BoardPosition component");
-			return;
-		}
-
-		boardPositions[toUnregister.X, toUnregister.Y] = null;
+		actors[toUnregister.BoardPosition.Position] = null;
 	}
 
-	public void RegisterPosition(BoardPosition toRegister)
+	public void RegisterActor(Actor toRegister)
 	{
-		if (!IsWithinBounds(toRegister.X, toRegister.Y))
+		if (!IsWithinBounds(toRegister.BoardPosition.X, toRegister.BoardPosition.Y))
 		{
-			Debug.LogError("Attempt to RegisterPosition out of board boaunds");
+			Debug.LogError("Attempt to RegisterActor out of board boaunds");
 			return;
 		}
 
-		if (IsOccupied(toRegister.X, toRegister.Y))
+		if (IsOccupied(toRegister.BoardPosition.Position))
 		{
-			Debug.LogError("Attempt to RegisterPosition occupied board position " + boardPositions[toRegister.X, toRegister.Y].name);
+			Debug.LogError("Attempt to RegisterActor occupied board position " + GetOccupied(toRegister.BoardPosition.Position).name);
 			return;
 		}
-		boardPositions[toRegister.X, toRegister.Y] = toRegister;
+		actors[toRegister.BoardPosition.Position] = toRegister;
 	}
 
 	public bool IsWithinBounds(int x, int y)
 	{
-		return x >= 0 && x < boardPositions.GetLength(0) && y >= 0 && y < boardPositions.GetLength(1);
+		return x >= 0 && x < board.GetLength(0) && y >= 0 && y < board.GetLength(1);
 	}
 
-	public BoardPosition GetOccupied(int x, int y)
+	public Actor GetOccupied(Position position)
 	{
-		if (!IsWithinBounds(x, y))
-		{
-			Debug.LogError("Attempt to GetOccupied out of bounds");
-			return null;
-		}
-		return boardPositions[x, y];
+		return actors[position];
 	}
 
-	public bool IsOccupied(int x, int y)
+	public bool IsOccupied(Position position)
 	{
-		return GetOccupied(x, y) != null;
+		return GetOccupied(position) != null;
 	}
 
 	public bool IsPassable(int x, int y)
 	{
-		return IsWithinBounds(x, y) && !IsOccupied(x, y);
+		return IsWithinBounds(x, y) && board[x,y] == 'p';
 	}
 
 }

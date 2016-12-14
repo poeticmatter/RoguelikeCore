@@ -3,16 +3,20 @@ using System.Collections;
 
 public class BoardPosition : MonoBehaviour {
 
-	private Position position;
+	private Position _position;
+	public Position Position
+	{
+		get { return _position; }
+	}
 
 	public int X
 	{
-		get { return position.X; }
+		get { return _position.X; }
 	}
 
 	public int Y
 	{
-		get { return position.Y; }
+		get { return _position.Y; }
 	}
 
 
@@ -24,7 +28,7 @@ public class BoardPosition : MonoBehaviour {
 	public void TeleportTo(int x, int y)
 	{
 		BoardManager.instance.UnregisterPosition(this);
-		position = new Position(x, y);
+		_position = new Position(x, y);
 		BoardManager.instance.RegisterPosition(this);
 	}
 

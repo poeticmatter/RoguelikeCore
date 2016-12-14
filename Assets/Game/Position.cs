@@ -19,4 +19,19 @@ public class Position {
 		_y = y;
 	}
 
+	public override bool Equals(object obj)
+	{
+		if (!(obj is Position))
+		{
+			return false;
+		}
+		Position other = (Position)obj;
+		return other.X == _x && other.Y == _y;
+	}
+
+	public override int GetHashCode()
+	{
+		return _x * 31 + _y;
+	}
+
 }
