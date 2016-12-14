@@ -22,14 +22,14 @@ public class BoardPosition : MonoBehaviour {
 
 	void Start ()
 	{
-		BoardManager.instance.RegisterPosition(this);
+		BoardManager.instance.RegisterDynamicBoardPosition(this);
 	}
 
 	public void TeleportTo(int x, int y)
 	{
-		BoardManager.instance.UnregisterPosition(this);
+		BoardManager.instance.UnregisterDynamicBoardPosition(this);
 		_position = new Position(x, y);
-		BoardManager.instance.RegisterPosition(this);
+		BoardManager.instance.RegisterDynamicBoardPosition(this);
 	}
 
 	public void MoveDirection(Direction direction)
@@ -50,12 +50,12 @@ public class BoardPosition : MonoBehaviour {
 		{
 			return false;
 		}
-		return !BoardManager.instance.IsOccupied(xTo, yTo);
+		return !BoardManager.instance.IsOccupied(_position);
 	}
 
 	public BoardPosition GetAdjacent(Direction direction)
 	{
-		return BoardManager.instance.GetOccupied(X + direction.X, Y + direction.Y);
+		return BoardManager.instance.GetOccupied(new Position(X + direction.X, Y + direction.Y));
 	}
 
 	public int ManhattanDistance(BoardPosition to)
@@ -70,6 +70,6 @@ public class BoardPosition : MonoBehaviour {
 
 	public void Unregister()
 	{
-		BoardManager.instance.UnregisterPosition(this);
+		BoardManager.instance.UnregisterDynamicBoardPosition(this);
 	}
 }

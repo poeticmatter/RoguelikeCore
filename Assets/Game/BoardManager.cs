@@ -6,7 +6,7 @@ public class BoardManager : MonoBehaviour {
 
 	public static BoardManager instance = null;
 	private char[,] board;
-	private Dictionary<Position, Actor> actors;
+	private Dictionary<Position, BoardPosition> dynamicPositions;
 
 
 	void Awake()
@@ -29,30 +29,30 @@ public class BoardManager : MonoBehaviour {
 		}
 	}
 
-	public void UnregisterActor(Actor toUnregister)
+	public void UnregisterDynamicBoardPosition(BoardPosition toUnregister)
 	{
-		if (actors[toUnregister.BoardPosition.Position] == null)
+		if (dynamicPositions[toUnregister.Position] == null)
 		{
 			Debug.LogError(toUnregister.name + "is not registered at it's board position.");
 			return;
 		}
-		actors[toUnregister.BoardPosition.Position] = null;
+		dynamicPositions[toUnregister.Position] = null;
 	}
 
-	public void RegisterActor(Actor toRegister)
+	public void RegisterDynamicBoardPosition(BoardPosition toRegister)
 	{
-		if (!IsWithinBounds(toRegister.BoardPosition.X, toRegister.BoardPosition.Y))
+		if (!IsWithinBounds(toRegister.X, toRegister.Y))
 		{
 			Debug.LogError("Attempt to RegisterActor out of board boaunds");
 			return;
 		}
 
-		if (IsOccupied(toRegister.BoardPosition.Position))
+		if (IsOccupied(toRegister.Position))
 		{
-			Debug.LogError("Attempt to RegisterActor occupied board position " + GetOccupied(toRegister.BoardPosition.Position).name);
+			Debug.LogError("Attempt to RegisterActor occupied board position " + GetOccupied(toRegister.Position).name);
 			return;
 		}
-		actors[toRegister.BoardPosition.Position] = toRegister;
+		dynamicPositions[toRegister.Position] = toRegister;
 	}
 
 	public bool IsWithinBounds(int x, int y)
@@ -60,9 +60,9 @@ public class BoardManager : MonoBehaviour {
 		return x >= 0 && x < board.GetLength(0) && y >= 0 && y < board.GetLength(1);
 	}
 
-	public Actor GetOccupied(Position position)
+	public BoardPosition GetOccupied(Position position)
 	{
-		return actors[position];
+		return dynamicPositions[position];
 	}
 
 	public bool IsOccupied(Position position)

@@ -34,4 +34,19 @@ public class Position {
 		return _x * 31 + _y;
 	}
 
+	public static bool operator == (Position p1, Position p2)
+	{
+		return p1._x == p2._x && p1._y == p2._y;
+	}
+
+	public static bool operator != (Position p1, Position p2)
+	{
+		return p1._x != p2._x || p1._y != p2._y;
+	}
+
+	public static Position operator + (Position p1, Position p2)
+	{
+		return new Position(p1._x + p2._x, p1._y + p2._y);
+	}
+
 }
