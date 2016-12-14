@@ -12,7 +12,7 @@ public class EnemyActor : Actor
 		if (a.solution.Count > 1)
 		{
 			AStarNode2D node = (AStarNode2D) a.solution[1];
-			Direction direction = Direction.GetDirection(node.x - BoardPosition.xPosition, node.y - BoardPosition.yPosition);
+			Direction direction = Direction.GetDirection(node.x - BoardPosition.X, node.y - BoardPosition.Y);
 			return GetAttackAction(direction);
 		}
 		return GetComponent<RestAction>();
@@ -20,7 +20,7 @@ public class EnemyActor : Actor
 
 	private AStar GetAStar(BoardPosition from, BoardPosition to)
 	{
-		return new AStar(new BoardManagerAStarCost(to), from.xPosition, from.yPosition, to.xPosition, to.yPosition);
+		return new AStar(new BoardManagerAStarCost(to), from.X, from.Y, to.X, to.Y);
     }
 
 }

@@ -21,39 +21,39 @@ public class BoardManager : MonoBehaviour {
 
 	public void UnregisterPosition(BoardPosition toUnregister)
 	{
-		if (!IsWithinBounds(toUnregister.xPosition, toUnregister.yPosition))
+		if (!IsWithinBounds(toUnregister.X, toUnregister.Y))
 		{
 			Debug.LogError("Attempt to UnregisterPosition out of board boaunds");
 			return;
 		}
-		if (!IsOccupied(toUnregister.xPosition, toUnregister.yPosition))
+		if (!IsOccupied(toUnregister.X, toUnregister.Y))
 		{
 			Debug.LogError("Attempt to UnregisterPosition an empty board position");
 			return;
 		}
-		if (boardPositions[toUnregister.xPosition, toUnregister.yPosition] != toUnregister)
+		if (boardPositions[toUnregister.X, toUnregister.Y] != toUnregister)
 		{
 			Debug.LogError("FATAL ERROR: Unregistering postion not occupied by the same BoardPosition component");
 			return;
 		}
 
-		boardPositions[toUnregister.xPosition, toUnregister.yPosition] = null;
+		boardPositions[toUnregister.X, toUnregister.Y] = null;
 	}
 
 	public void RegisterPosition(BoardPosition toRegister)
 	{
-		if (!IsWithinBounds(toRegister.xPosition, toRegister.yPosition))
+		if (!IsWithinBounds(toRegister.X, toRegister.Y))
 		{
 			Debug.LogError("Attempt to RegisterPosition out of board boaunds");
 			return;
 		}
 
-		if (IsOccupied(toRegister.xPosition, toRegister.yPosition))
+		if (IsOccupied(toRegister.X, toRegister.Y))
 		{
-			Debug.LogError("Attempt to RegisterPosition occupied board position " + boardPositions[toRegister.xPosition, toRegister.yPosition].name);
+			Debug.LogError("Attempt to RegisterPosition occupied board position " + boardPositions[toRegister.X, toRegister.Y].name);
 			return;
 		}
-		boardPositions[toRegister.xPosition, toRegister.yPosition] = toRegister;
+		boardPositions[toRegister.X, toRegister.Y] = toRegister;
 	}
 
 	public bool IsWithinBounds(int x, int y)

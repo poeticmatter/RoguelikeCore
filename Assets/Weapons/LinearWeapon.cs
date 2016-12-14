@@ -14,7 +14,7 @@ public class LinearWeapon : Weapon
 		BoardPosition targetPostion = null;
         while (targetPostion == null && i <= range)
 		{
-			targetPostion = BoardManager.instance.GetOccupied(position.xPosition + direction.X*i, position.yPosition + direction.Y*i);
+			targetPostion = BoardManager.instance.GetOccupied(position.X + direction.X*i, position.Y + direction.Y*i);
 			i++;
 			
 		}

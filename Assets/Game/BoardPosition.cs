@@ -3,8 +3,17 @@ using System.Collections;
 
 public class BoardPosition : MonoBehaviour {
 
-	public int xPosition;
-	public int yPosition;
+	private Position position;
+
+	public int X
+	{
+		get { return position.X; }
+	}
+
+	public int Y
+	{
+		get { return position.Y; }
+	}
 
 
 	void Start ()
@@ -15,8 +24,7 @@ public class BoardPosition : MonoBehaviour {
 	public void TeleportTo(int x, int y)
 	{
 		BoardManager.instance.UnregisterPosition(this);
-		xPosition = x;
-		yPosition = y;
+		position = new Position(x, y);
 		BoardManager.instance.RegisterPosition(this);
 	}
 
@@ -27,13 +35,13 @@ public class BoardPosition : MonoBehaviour {
 			Debug.LogError("Cannot ModeDirection");
 			return;
 		}
-		TeleportTo(xPosition + direction.X, yPosition + direction.Y);
+		TeleportTo(X + direction.X, Y + direction.Y);
 	}
 
 	public bool CanMoveDirection (Direction direction)
 	{
-		int xTo = xPosition + direction.X;
-		int yTo = yPosition + direction.Y;
+		int xTo = X + direction.X;
+		int yTo = Y + direction.Y;
 		if (!BoardManager.instance.IsWithinBounds(xTo, yTo))
 		{
 			return false;
@@ -43,12 +51,12 @@ public class BoardPosition : MonoBehaviour {
 
 	public BoardPosition GetAdjacent(Direction direction)
 	{
-		return BoardManager.instance.GetOccupied(xPosition + direction.X, yPosition + direction.Y);
+		return BoardManager.instance.GetOccupied(X + direction.X, Y + direction.Y);
 	}
 
 	public int ManhattanDistance(BoardPosition to)
 	{
-		return Mathf.Abs(xPosition - to.xPosition) + Mathf.Abs(yPosition - to.yPosition);
+		return Mathf.Abs(X - to.X) + Mathf.Abs(Y - to.Y);
 	}
 
 	public bool IsAdjacent(BoardPosition to)
