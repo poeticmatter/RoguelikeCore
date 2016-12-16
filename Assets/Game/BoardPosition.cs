@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class BoardPosition : MonoBehaviour {
-
-	private Position _position;
-	public Position Position
+	[SerializeField]
+	private IntVector2 _position;
+	public IntVector2 Position
 	{
 		get { return _position; }
 	}
@@ -28,11 +29,11 @@ public class BoardPosition : MonoBehaviour {
 	public void TeleportTo(int x, int y)
 	{
 		BoardManager.instance.UnregisterDynamicBoardPosition(this);
-		_position = new Position(x, y);
+		_position = new IntVector2(x, y);
 		BoardManager.instance.RegisterDynamicBoardPosition(this);
 	}
 
-	public void MoveDirection(Direction direction)
+	public void MoveDirection(IntVector2 direction)
 	{
 		if (!CanMoveDirection(direction))
 		{
@@ -42,20 +43,14 @@ public class BoardPosition : MonoBehaviour {
 		TeleportTo(X + direction.X, Y + direction.Y);
 	}
 
-	public bool CanMoveDirection (Direction direction)
+	public bool CanMoveDirection (IntVector2 direction)
 	{
-		int xTo = X + direction.X;
-		int yTo = Y + direction.Y;
-		if (!BoardManager.instance.IsWithinBounds(xTo, yTo))
-		{
-			return false;
-		}
-		return !BoardManager.instance.IsOccupied(_position);
+		return BoardManager.instance.IsPassable(Position + direction);
 	}
 
-	public BoardPosition GetAdjacent(Direction direction)
+	public BoardPosition GetAdjacent(IntVector2 direction)
 	{
-		return BoardManager.instance.GetOccupied(new Position(X + direction.X, Y + direction.Y));
+		return BoardManager.instance.GetOccupied(Position + direction);
 	}
 
 	public int ManhattanDistance(BoardPosition to)

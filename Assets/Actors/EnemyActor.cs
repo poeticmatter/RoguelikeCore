@@ -12,7 +12,7 @@ public class EnemyActor : Actor
 		if (a.solution.Count > 1)
 		{
 			AStarNode2D node = (AStarNode2D) a.solution[1];
-			Direction direction = Direction.GetDirection(node.x - BoardPosition.X, node.y - BoardPosition.Y);
+			IntVector2 direction = IntVector2.GetDirection(node.x - BoardPosition.X, node.y - BoardPosition.Y);
 			return GetAttackAction(direction);
 		}
 		return GetComponent<RestAction>();

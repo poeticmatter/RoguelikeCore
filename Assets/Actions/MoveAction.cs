@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(RestAction))]
 public class MoveAction : Action {
 
-	public Direction direction;
+	public IntVector2 direction;
 
 	override public void Perform()
 	{

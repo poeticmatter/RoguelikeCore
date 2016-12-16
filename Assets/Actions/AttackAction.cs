@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(MoveAction))]
 public class AttackAction : Action {
 
-	public Direction direction;
+	public IntVector2 direction;
 
 	private Weapon weapon = null;
 

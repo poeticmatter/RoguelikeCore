@@ -9,5 +9,5 @@ public abstract class Weapon : MonoBehaviour {
 
 	abstract public void UseWeapon();
 
-	abstract public bool AcquireTarget(Direction direction);
+	abstract public bool AcquireTarget(IntVector2 direction);
 }

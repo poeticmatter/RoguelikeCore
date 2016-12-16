@@ -6,19 +6,19 @@ public class PlayerActor : Actor {
 	public override Action GetAction()
 	{
 		if (Input.GetKeyDown(KeyCode.W)) {
-			return GetAttackAction(Direction.UP());
+			return GetAttackAction(IntVector2.UP);
 		}
 		if (Input.GetKeyDown(KeyCode.A))
 		{
-			return GetAttackAction(Direction.LEFT());
+			return GetAttackAction(IntVector2.LEFT);
 		}
 		if (Input.GetKeyDown(KeyCode.S))
 		{
-			return GetAttackAction(Direction.DOWN());
+			return GetAttackAction(IntVector2.DOWN);
 		}
 		if (Input.GetKeyDown(KeyCode.D))
 		{
-			return GetAttackAction(Direction.RIGHT());
+			return GetAttackAction(IntVector2.RIGHT);
 		}
 		return null;
 

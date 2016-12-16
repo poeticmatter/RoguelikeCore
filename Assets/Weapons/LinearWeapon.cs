@@ -7,14 +7,14 @@ public class LinearWeapon : Weapon
 {
 	public int range;
 
-	public override bool AcquireTarget(Direction direction)
+	public override bool AcquireTarget(IntVector2 direction)
 	{
 		int i = 1;
 		BoardPosition position = GetComponent<BoardPosition>();
 		BoardPosition targetPostion = null;
         while (targetPostion == null && i <= range)
 		{
-			targetPostion = BoardManager.instance.GetOccupied(new Position(position.X + direction.X*i, position.Y + direction.Y*i));
+			targetPostion = BoardManager.instance.GetOccupied(new IntVector2(position.X + direction.X*i, position.Y + direction.Y*i));
 			i++;
 			
 		}

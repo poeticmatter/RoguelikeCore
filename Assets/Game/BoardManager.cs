@@ -6,7 +6,7 @@ public class BoardManager : MonoBehaviour {
 
 	public static BoardManager instance = null;
 	private char[,] board;
-	private Dictionary<Position, BoardPosition> dynamicPositions;
+	private Dictionary<IntVector2, BoardPosition> dynamicPositions = new Dictionary<IntVector2, BoardPosition>();
 
 
 	void Awake()
@@ -31,7 +31,7 @@ public class BoardManager : MonoBehaviour {
 
 	public void UnregisterDynamicBoardPosition(BoardPosition toUnregister)
 	{
-		if (dynamicPositions[toUnregister.Position] == null)
+		if (!dynamicPositions.ContainsKey(toUnregister.Position) || dynamicPositions[toUnregister.Position]!= toUnregister)
 		{
 			Debug.LogError(toUnregister.name + "is not registered at it's board position.");
 			return;
@@ -60,19 +60,39 @@ public class BoardManager : MonoBehaviour {
 		return x >= 0 && x < board.GetLength(0) && y >= 0 && y < board.GetLength(1);
 	}
 
-	public BoardPosition GetOccupied(Position position)
+	public BoardPosition GetOccupied(int x,int y)
 	{
+		return GetOccupied(new IntVector2(x, y));
+		
+	}
+
+	public BoardPosition GetOccupied(IntVector2 position)
+	{
+		if (!dynamicPositions.ContainsKey(position))
+		{
+			return null;
+		}
 		return dynamicPositions[position];
 	}
 
-	public bool IsOccupied(Position position)
+	public bool IsOccupied(IntVector2 position)
 	{
 		return GetOccupied(position) != null;
+	}
+
+	public bool IsOccupied(int x, int y)
+	{
+		return GetOccupied(new IntVector2(x, y));
 	}
 
 	public bool IsPassable(int x, int y)
 	{
 		return IsWithinBounds(x, y) && board[x,y] == 'p';
+	}
+
+	public bool IsPassable(IntVector2 position)
+	{
+		return IsPassable(position.X, position.Y);
 	}
 
 }

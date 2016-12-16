@@ -39,6 +39,6 @@ public class BoardManagerAStarCost : AStarCost
 		{
 			return true;
 		}
-		return target.Equals(BoardManager.instance.GetOccupied(new Position(toX,toY)));
+		return target.Equals(BoardManager.instance.GetOccupied(new IntVector2(toX,toY)));
     }
 }
