@@ -52,7 +52,7 @@ public class GameLoop : MonoBehaviour {
 				return;
 			}
 			ResetCurrentAction();
-			EnergyLoop();
+			IncrementCurrentActor();
 		}
 		PerformAction();
 	}
@@ -62,24 +62,21 @@ public class GameLoop : MonoBehaviour {
 		currentAction = GetCurrentActor().GetAction();
 		if (currentAction == null) return; //Should only happen for player actor
 
-		while (!currentAction.CanPerform())
+		while (true)
 		{
-			currentAction = currentAction.GetAlternate();
-		}
-		currentAction.Perform();
-	}
+			ActionResult result = currentAction.Perform();
+			if (result.Succeeded)
+			{
+				if (!GetCurrentActor().HasEnergyToActivate(currentAction.EnergyCost))
+				{
+					Debug.LogError(currentAction +  "Perform should check if actor has sufficient energy, and return an alternate if it does not. Defaulting to rest action.");
+					currentAction = GetCurrentActor().GetRestAction();
 
-	private void EnergyLoop()
-	{
-		IncrementCurrentActor();
-		GetCurrentActor().GainEnergy(1);
-		if (!GetCurrentActor().HasEnergyToActivate())
-		{
-			EnergyLoop();
-		}
-		else
-		{
-			GetCurrentActor().SpendEnergyForActivation();
+				}
+				GetCurrentActor().SpendEnergyForActivation(currentAction.EnergyCost);
+				break;
+			}
+			currentAction = result.Alternate;
 		}
 	}
 

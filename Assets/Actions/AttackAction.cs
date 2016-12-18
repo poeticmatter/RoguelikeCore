@@ -1,42 +1,62 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(MoveAction))]
+[RequireComponent(typeof(Actor))]
+[RequireComponent(typeof(RestAction))]
+[RequireComponent(typeof(Weapon))]
 public class AttackAction : Action {
 
 	public IntVector2 direction;
 
 	private Weapon weapon = null;
 
-	override public void Perform()
+	override public ActionResult Perform()
 	{
-		state = ActionState.EXECUTING;
+		if (!GetComponent<Actor>().HasEnergyToActivate(EnergyCost))
+		{
+			return ActionResult.FAILURE(GetComponent<RestAction>());
+		}
 		if (!CanPerform())
 		{
-			Debug.LogError("Atempting to perform a melee action that cannot be performed");
-			state = ActionState.FINISHED;
-			return;
+			MoveAction alternate = GetMoveAction();
+			//If actor has a MoveAction attached, do that instead of attack.
+			//Otherwise rest.
+			if (alternate == null)
+			{
+				return ActionResult.FAILURE(GetComponent<RestAction>());
+			}
+
+			return ActionResult.FAILURE(alternate);
 		}
-		weapon.UseWeapon();
-		state = ActionState.FINISHED;
+		state = ActionState.EXECUTING;
+		return ActionResult.SUCCESS;	
 	}
 
-	override public bool CanPerform()
+	void Update()
+	{
+		if (state == ActionState.EXECUTING)
+		{
+			Debug.Log(name + " performed attack action.");
+			weapon.UseWeapon();
+			state = ActionState.FINISHED;
+		}
+	}
+
+	private bool CanPerform()
 	{
 		weapon = GetComponent<Weapon>();
-		if (weapon == null)
-		{
-			Debug.Log("No weapon");
-			return false;
-		}
-
 		return weapon.AcquireTarget(direction);
 	}
 
-	override public Action GetAlternate()
+	protected MoveAction GetMoveAction()
 	{
-		MoveAction alternate = GetComponent<MoveAction>();
-		alternate.direction = direction;
-		return alternate;
+		MoveAction action = GetComponent<MoveAction>();
+		if (action == null)
+		{
+			return null;
+		}
+		action.direction = direction;
+		return action;
 	}
+
 }

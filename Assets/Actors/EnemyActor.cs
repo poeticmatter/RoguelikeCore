@@ -23,4 +23,11 @@ public class EnemyActor : Actor
 		return new AStar(new BoardManagerAStarCost(to), from.X, from.Y, to.X, to.Y);
     }
 
+	protected Action GetAttackAction(IntVector2 direction)
+	{
+		AttackAction action = GetComponent<AttackAction>();
+		action.direction = direction;
+		return action;
+	}
+
 }

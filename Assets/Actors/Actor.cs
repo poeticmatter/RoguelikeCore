@@ -2,11 +2,9 @@
 using System.Collections;
 
 [RequireComponent(typeof(RestAction))]
-[RequireComponent(typeof(MoveAction))]
 [RequireComponent(typeof(BoardPosition))]
 public abstract class Actor : MonoBehaviour {
 
-	public int activationCost;
 	private int energy = 0;
 
 	private BoardPosition boardPosition = null;
@@ -28,31 +26,17 @@ public abstract class Actor : MonoBehaviour {
 
 	abstract public Action GetAction();
 
-	protected Action GetMoveAction(IntVector2 direction)
-	{
-		MoveAction action = GetComponent<MoveAction>();
-		action.direction = direction;
-		return action;
-	}
-
-	protected Action GetAttackAction(IntVector2 direction)
-	{
-		AttackAction action = GetComponent<AttackAction>();
-		action.direction = direction;
-		return action;
-	}
-
 	public void Unregister()
 	{
 		GameLoop.instance.UnregisterActor(this);
 	}
 
-	public bool HasEnergyToActivate()
+	public bool HasEnergyToActivate(int activationCost)
 	{
 		return energy >= activationCost;
 	}
 
-	public void SpendEnergyForActivation()
+	public void SpendEnergyForActivation(int activationCost)
 	{
 		energy -= activationCost;
 	}
@@ -60,6 +44,11 @@ public abstract class Actor : MonoBehaviour {
 	public void GainEnergy(int amount)
 	{
 		energy += amount;
+	}
+
+	public Action GetRestAction()
+	{
+		return GetComponent<RestAction>();
 	}
 
 }

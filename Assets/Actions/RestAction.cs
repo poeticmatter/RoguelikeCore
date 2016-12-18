@@ -1,22 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Actor))]
 public class RestAction : Action {
+	public int energyGain = 1;
 
-	override public void Perform()
+	override public ActionResult Perform()
 	{
-		//Default action, do nothing.
-		Debug.Log("Performed default action.");
+		GetComponent<Actor>().GainEnergy(energyGain);
 		state = ActionState.FINISHED;
-	}
-
-	override public bool CanPerform()
-	{
-		return true;
-	}
-
-	override public Action GetAlternate()
-	{
-		return null; //Not needed, as can always perform.
+		Debug.Log(name + " performed rest action.");
+		return ActionResult.SUCCESS;
 	}
 }
