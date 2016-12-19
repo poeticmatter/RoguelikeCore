@@ -5,4 +5,5 @@ Art assets from Unity's roguelike project
 
 Version 0.1
 
-Check out www.timeshapers.com, I will put up a tutorial soon.
+Check out www.timeshapers.com.
+https://timeshapers.com/2016/12/19/roguelike-core-open-source-code-base-for-roguelike-in-unity/ for full overview.
