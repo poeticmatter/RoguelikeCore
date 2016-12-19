@@ -12,10 +12,6 @@ public class AttackAction : Action {
 
 	override public ActionResult Perform()
 	{
-		if (!GetComponent<Actor>().HasEnergyToActivate(EnergyCost))
-		{
-			return ActionResult.FAILURE(GetComponent<RestAction>());
-		}
 		if (!CanPerform())
 		{
 			MoveAction alternate = GetMoveAction();
@@ -27,6 +23,10 @@ public class AttackAction : Action {
 			}
 
 			return ActionResult.FAILURE(alternate);
+		}
+		if (!GetComponent<Actor>().HasEnergyToActivate(EnergyCost))
+		{
+			return ActionResult.FAILURE(GetComponent<RestAction>());
 		}
 		state = ActionState.EXECUTING;
 		return ActionResult.SUCCESS;	
